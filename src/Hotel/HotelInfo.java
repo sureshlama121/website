@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -135,9 +136,9 @@ public class HotelInfo extends javax.swing.JFrame {
                 .addComponent(typeCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(130, 130, 130)
                 .addComponent(typeCombo2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(200, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, modificationPanelLayout.createSequentialGroup()
-                .addContainerGap(54, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(53, 53, 53)
                 .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -172,6 +173,11 @@ public class HotelInfo extends javax.swing.JFrame {
         searchButton.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         searchButton.setForeground(new java.awt.Color(255, 255, 255));
         searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
 
         titleLabel.setBackground(new java.awt.Color(204, 0, 255));
         titleLabel.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
@@ -195,7 +201,7 @@ public class HotelInfo extends javax.swing.JFrame {
         });
 
         hotelIcon.setBackground(new java.awt.Color(204, 204, 204));
-        hotelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/hotel.png"))); // NOI18N
+        hotelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/hotel.png"))); // NOI18N
 
         roomInfo.setBackground(new java.awt.Color(204, 204, 204));
         roomInfo.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -256,7 +262,7 @@ public class HotelInfo extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(modificationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(209, Short.MAX_VALUE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         fileMenu.setText("File");
@@ -349,6 +355,23 @@ public class HotelInfo extends javax.swing.JFrame {
             Logger.getLogger(HotelInfo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_openMenuItemActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        // TODO add your handling code here:
+        ArrayList<String> table_data = new ArrayList<>();
+        ArrayList<Integer> price = new ArrayList<>();
+        String[] data;
+        for(int i=0;i<roomInfo.getRowCount();i++){
+            price.add((Integer) roomInfo.getValueAt(i, 2));
+            for(int j=0;i<roomInfo.getColumnCount();i++){
+                table_data.add((String) roomInfo.getValueAt(i, j));
+
+            }
+            for(int a=0;a<roomInfo.getRowCount();a++){
+
+            }
+        }
+    }//GEN-LAST:event_searchButtonActionPerformed
 
     /**
      * @param args the command line arguments
