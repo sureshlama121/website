@@ -4,6 +4,7 @@
  */
 package Hotel;
 
+import static java.lang.String.valueOf;
 import javax.swing.JOptionPane;
 /**
  *
@@ -39,8 +40,8 @@ public class MainPage extends javax.swing.JFrame {
         usernameLabel = new javax.swing.JLabel();
         passwordLabel = new javax.swing.JLabel();
         usernameField = new javax.swing.JTextField();
-        passwordField = new javax.swing.JTextField();
         loginButton = new javax.swing.JButton();
+        passwordField = new javax.swing.JPasswordField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -152,10 +153,10 @@ public class MainPage extends javax.swing.JFrame {
                             .addComponent(passwordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(27, 27, 27)
-                        .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(loginButton))))
+                        .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(usernameField, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                            .addComponent(loginButton)
+                            .addComponent(passwordField))))
                 .addContainerGap(120, Short.MAX_VALUE))
         );
         loginPanelLayout.setVerticalGroup(
@@ -226,13 +227,15 @@ public class MainPage extends javax.swing.JFrame {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // if the username and password are correct in the fields the button directs to the table page
-//        JOptionPane.showMessageDialog(rootPane, "user:"+usernameField.getText()+"password:"+ passwordField.getText(), "Success", JOptionPane.INFORMATION_MESSAGE);
-//        if(!(usernameField.getText() =="admin" && passwordField.getText() =="admin" )){
-//            JOptionPane.showMessageDialog(rootPane, "Please enter username and password correctly", "Error", JOptionPane.ERROR_MESSAGE);
-//        }
-//        else{
-//            JOptionPane.showMessageDialog(rootPane, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
-//        }
+        String passwordValue = valueOf(passwordField.getPassword());
+        JOptionPane.showMessageDialog(rootPane, "user:"+usernameField.getText()+"password:"+ passwordValue, "Success", JOptionPane.INFORMATION_MESSAGE);
+        if(usernameField.getText() =="admin" && passwordValue  == "admin" ){
+         JOptionPane.showMessageDialog(rootPane, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+             JOptionPane.showMessageDialog(rootPane, "Please enter username and password correctly", "Error", JOptionPane.ERROR_MESSAGE);
+        
+            }
         HotelInfo tableFrame = new HotelInfo("admin");
         tableFrame.setVisible(true);
     }//GEN-LAST:event_loginButtonActionPerformed
@@ -285,7 +288,7 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JButton loginButton;
     private javax.swing.JPanel loginPanel;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JTextField passwordField;
+    private javax.swing.JPasswordField passwordField;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JTextField usernameField;
     private javax.swing.JLabel usernameLabel;
