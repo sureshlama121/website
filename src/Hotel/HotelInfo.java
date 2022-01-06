@@ -1,5 +1,17 @@
 package Hotel;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -190,24 +202,14 @@ public class HotelInfo extends javax.swing.JFrame {
         roomInfo.setForeground(new java.awt.Color(51, 51, 51));
         roomInfo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Room No", "Room Type", "Price", "Air Conditioner", "Floor"
             }
         ));
         roomInfo.setGridColor(new java.awt.Color(51, 0, 51));
+        roomInfo.setShowGrid(true);
         jScrollPane1.setViewportView(roomInfo);
         if (roomInfo.getColumnModel().getColumnCount() > 0) {
             roomInfo.getColumnModel().getColumn(0).setPreferredWidth(20);
@@ -260,6 +262,11 @@ public class HotelInfo extends javax.swing.JFrame {
         fileMenu.setText("File");
 
         openMenuItem.setText("Open");
+        openMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(openMenuItem);
 
         exitMenuItem.setText("Exit");
@@ -310,6 +317,38 @@ public class HotelInfo extends javax.swing.JFrame {
     private void typeCombo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeCombo2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_typeCombo2ActionPerformed
+
+    private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
+        // TODO add your handling code here:
+        //JFileChooser opens the window for choosing files
+        JFileChooser chooseWindow = new JFileChooser();
+        //FileFilter filters out the file types as specified as arguments
+        FileFilter filter = new FileNameExtensionFilter("files","csv","txt");
+        chooseWindow.showOpenDialog(null);
+        //File is used to retrieve the selected file
+        File file = chooseWindow.getSelectedFile();
+        String filepath = file.getAbsolutePath();
+        
+        // bufferedReader reads the lines and then is inserted into the table
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String firstLine = br.readLine().trim();
+            String[] columnsName = firstLine.split(",");
+            DefaultTableModel model = (DefaultTableModel) roomInfo.getModel();
+            model.setColumnIdentifiers(columnsName);
+            
+            Object[] tableLines = br.lines().toArray();
+            
+            for(int i = 0; i < tableLines.length; i++){
+                String line = tableLines[i].toString().trim();
+                String[] dataRow = line.split(",");
+                model.addRow(dataRow);
+            }
+        }
+        catch (IOException ex) {
+            Logger.getLogger(HotelInfo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_openMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
