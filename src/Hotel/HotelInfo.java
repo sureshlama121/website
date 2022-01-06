@@ -195,7 +195,7 @@ public class HotelInfo extends javax.swing.JFrame {
         });
 
         hotelIcon.setBackground(new java.awt.Color(204, 204, 204));
-        hotelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/hotel.png"))); // NOI18N
+        hotelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/hotel.png"))); // NOI18N
 
         roomInfo.setBackground(new java.awt.Color(204, 204, 204));
         roomInfo.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N

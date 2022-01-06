@@ -67,7 +67,7 @@ public class MainPage extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/namaste.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/namaste.png"))); // NOI18N
 
         adminButton.setBackground(new java.awt.Color(102, 102, 255));
         adminButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
