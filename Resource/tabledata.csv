@@ -1,0 +1,30 @@
+Room No,Room Type,Price,Air Conditioner,Floor
+101,Standard,50,NO,1st
+102,Standard,50,NO,1st
+103,Couple,80,NO,1st
+104,Couple,80,NO,1st
+105,Couple,90,YES,1st
+106,Couple,90,YES,1st
+107,Family,100,NO,1st
+108,Couple,80,YES,1st
+109,Family,100,NO,1st
+110,Family,100,NO,1st
+201,Couple,80,YES,2nd
+202,Family,100,NO,2nd
+203,Family,100,NO,2nd
+204,Standard,60,YES,2nd
+205,Standard,50,NO,2nd
+206,Family,110, YES,2nd
+207,Couple,80,NO,2nd
+208, Standard,60,YES,2nd
+209, Family,110, YES,2nd
+210, Couple,80, NO,2nd
+301,Deluxe,150,YES,3rd
+302,Deluxe,150, YES,3rd
+303, Family,120,YES,3rd
+304, Deluxe,250,YES,3rd
+305,Deluxe,150,YES,3rd
+401,Suite,250,YES,4th
+402,Suite,250,YES,4th
+501,Suite,250,YES,5th
+502,Suite,250,YES,5th

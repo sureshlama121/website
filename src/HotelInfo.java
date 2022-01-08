@@ -1,11 +1,15 @@
-package Hotel;
 
+
+import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -29,6 +33,11 @@ public class HotelInfo extends javax.swing.JFrame {
      * Creates new form HotelInfo
      */
     String userType;
+    ArrayList<String> table_data = new ArrayList<>();
+    ArrayList<Integer> price = new ArrayList<>();
+    DefaultTableModel model;
+    boolean combobox_repeat = false;
+    boolean search_repeat = false;
     
     public HotelInfo() {
         initComponents();
@@ -39,8 +48,9 @@ public class HotelInfo extends javax.swing.JFrame {
         this.userType = userType;
      if(userType =="user"){
          modificationPanel.setVisible(false);
+         openFile("user");
      }
-    }
+         }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -61,8 +71,8 @@ public class HotelInfo extends javax.swing.JFrame {
         roomNumField = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         deleteButton = new javax.swing.JButton();
-        updateButton = new javax.swing.JButton();
         addButton = new javax.swing.JButton();
+        saveButton = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         yesRadio = new javax.swing.JRadioButton();
@@ -74,9 +84,11 @@ public class HotelInfo extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         roomInfo = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        resetButton = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         exitMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
 
@@ -94,12 +106,12 @@ public class HotelInfo extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Hotel Info");
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 204));
         jPanel1.setForeground(new java.awt.Color(204, 204, 204));
 
-        modificationPanel.setBackground(new java.awt.Color(153, 153, 153));
+        modificationPanel.setBackground(new java.awt.Color(255, 255, 204));
 
-        floorCombo.setBackground(new java.awt.Color(153, 153, 153));
+        floorCombo.setBackground(new java.awt.Color(255, 51, 51));
         floorCombo.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         floorCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " Select Floor", "1st", "2nd", "3rd", "4th", "5th" }));
         floorCombo.setBorder(null);
@@ -110,7 +122,7 @@ public class HotelInfo extends javax.swing.JFrame {
             }
         });
 
-        typeCombo1.setBackground(new java.awt.Color(153, 153, 153));
+        typeCombo1.setBackground(new java.awt.Color(255, 51, 51));
         typeCombo1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         typeCombo1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " Select Room Type", " Single ", " Double", " Family", " Suite", " Deulxe" }));
         typeCombo1.setBorder(null);
@@ -121,13 +133,16 @@ public class HotelInfo extends javax.swing.JFrame {
             }
         });
 
+        roomPriceField.setBackground(new java.awt.Color(255, 255, 204));
         roomPriceField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Room Price", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 12))); // NOI18N
 
+        roomNumField.setBackground(new java.awt.Color(255, 255, 204));
         roomNumField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Room No", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 12))); // NOI18N
 
-        jPanel3.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel3.setBackground(new java.awt.Color(255, 255, 204));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Modify Table"));
 
+        deleteButton.setBackground(java.awt.Color.red);
         deleteButton.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         deleteButton.setText("Delete");
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
@@ -136,14 +151,7 @@ public class HotelInfo extends javax.swing.JFrame {
             }
         });
 
-        updateButton.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        updateButton.setText("Update");
-        updateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateButtonActionPerformed(evt);
-            }
-        });
-
+        addButton.setBackground(java.awt.Color.green);
         addButton.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         addButton.setText("Add");
         addButton.addActionListener(new java.awt.event.ActionListener() {
@@ -152,15 +160,25 @@ public class HotelInfo extends javax.swing.JFrame {
             }
         });
 
+        saveButton.setBackground(java.awt.Color.blue);
+        saveButton.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        saveButton.setForeground(new java.awt.Color(255, 255, 204));
+        saveButton.setText("Save");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(56, Short.MAX_VALUE)
+                .addContainerGap(37, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45))
         );
@@ -170,25 +188,24 @@ public class HotelInfo extends javax.swing.JFrame {
                 .addGap(7, 7, 7)
                 .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel4.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel4.setBackground(new java.awt.Color(255, 255, 204));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel1.setText("Air Conditioner:");
 
-        yesRadio.setBackground(new java.awt.Color(153, 153, 153));
+        yesRadio.setBackground(new java.awt.Color(255, 255, 204));
         acGroup.add(yesRadio);
         yesRadio.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         yesRadio.setText("YES");
         yesRadio.setAutoscrolls(true);
 
-        noRadio.setBackground(new java.awt.Color(153, 153, 153));
+        noRadio.setBackground(new java.awt.Color(255, 255, 204));
         acGroup.add(noRadio);
         noRadio.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         noRadio.setText("NO");
@@ -235,15 +252,15 @@ public class HotelInfo extends javax.swing.JFrame {
                     .addComponent(floorCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(49, 49, 49)
+                .addGap(59, 59, 59)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+                .addGap(19, 19, 19))
         );
         modificationPanelLayout.setVerticalGroup(
             modificationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(modificationPanelLayout.createSequentialGroup()
                 .addGap(47, 47, 47)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(modificationPanelLayout.createSequentialGroup()
                 .addGap(64, 64, 64)
@@ -259,7 +276,7 @@ public class HotelInfo extends javax.swing.JFrame {
                         .addGroup(modificationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(typeCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(floorCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         searchButton.setBackground(new java.awt.Color(255, 204, 102));
@@ -281,10 +298,15 @@ public class HotelInfo extends javax.swing.JFrame {
         priceField.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         priceField.setText(" Enter Price");
         priceField.setBorder(null);
+        priceField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                priceFieldActionPerformed(evt);
+            }
+        });
 
-        typeCombo.setBackground(new java.awt.Color(153, 153, 153));
+        typeCombo.setBackground(new java.awt.Color(255, 204, 102));
         typeCombo.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        typeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " Select Room Type", " Single ", " Double", " Family", " Suite", " Deulxe" }));
+        typeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Room Type", "Standard ", "Couple", "Family", "Suite", "Deulxe" }));
         typeCombo.setBorder(null);
         typeCombo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         typeCombo.addActionListener(new java.awt.event.ActionListener() {
@@ -311,30 +333,38 @@ public class HotelInfo extends javax.swing.JFrame {
             roomInfo.getColumnModel().getColumn(0).setPreferredWidth(20);
         }
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/hotel.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/hotel.png"))); // NOI18N
+
+        resetButton.setBackground(new java.awt.Color(255, 204, 102));
+        resetButton.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        resetButton.setForeground(new java.awt.Color(255, 255, 255));
+        resetButton.setText("Reset Table");
+        resetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addGap(48, 48, 48)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(modificationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 998, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(129, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47)
                         .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(72, 72, 72)
-                        .addComponent(typeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(typeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 998, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(modificationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(50, Short.MAX_VALUE))
             .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
@@ -347,11 +377,12 @@ public class HotelInfo extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(typeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(typeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(resetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(46, 46, 46)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(modificationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(34, Short.MAX_VALUE))
         );
@@ -365,6 +396,7 @@ public class HotelInfo extends javax.swing.JFrame {
             }
         });
         fileMenu.add(openMenuItem);
+        fileMenu.add(jSeparator1);
 
         exitMenuItem.setText("Exit");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -385,9 +417,7 @@ public class HotelInfo extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -401,6 +431,8 @@ public class HotelInfo extends javax.swing.JFrame {
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
         // TODO add your handling code here:
+         WindowEvent winCloseEvent = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winCloseEvent);
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
     private void typeCombo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeCombo1ActionPerformed
@@ -408,7 +440,39 @@ public class HotelInfo extends javax.swing.JFrame {
     }//GEN-LAST:event_typeCombo1ActionPerformed
 
     private void typeComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeComboActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here: 
+        ArrayList<String> category_result = new ArrayList<>();
+        String selected_category =(String) typeCombo.getSelectedItem(); //gets the category selected by the user
+        String check_category;
+        //Checks if the user has clicked the combobox multiple times
+        if(combobox_repeat == false){   //Only runs the code on the first click
+        //Adds all the table data into Arraylist    
+        for(int i=0;i<roomInfo.getRowCount();i++){   
+            for(int j=0;j<roomInfo.getColumnCount();j++){
+                table_data.add((String) roomInfo.getValueAt(i, j));
+            }    
+        }
+        }
+        //search the table_data ArrayList for details of rooms according to category selected by user
+        for(int i=1;i<table_data.size();i=i+5){
+                         check_category = table_data.get(i);      //checks the category of the room                 
+                            if (check_category.equals(selected_category)){  // adds the details of the hotel room into an ArrayList if categories match
+                            category_result.add(table_data.get(i-1));
+                            category_result.add(table_data.get(i));
+                            category_result.add(table_data.get(i+1));
+                            category_result.add(table_data.get(i+2));
+                            category_result.add(table_data.get(i+3));
+                            }
+            }
+                        //Empties the table
+                        model.setRowCount(0);
+                        
+                        //Adds the required room details into the table
+                        for(int a=0;a<category_result.size();a=a+5){   
+                            model.insertRow(0, new Object[] {category_result.get(a),category_result.get(a+1),category_result.get(a+2),category_result.get(a+3),category_result.get(a+4)});
+                        }  
+            JOptionPane.showMessageDialog(rootPane, "There are "+category_result.size()/5+ " rooms available.The details of the room are displayed in the table below.", userType, HEIGHT);
+        combobox_repeat = true;
     }//GEN-LAST:event_typeComboActionPerformed
 
     private void floorComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_floorComboActionPerformed
@@ -417,62 +481,92 @@ public class HotelInfo extends javax.swing.JFrame {
 
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
         // TODO add your handling code here:
-        //JFileChooser opens the window for choosing files
-        JFileChooser chooseWindow = new JFileChooser();
-        //FileFilter filters out the file types as specified as arguments
-        FileFilter filter = new FileNameExtensionFilter("files","csv","txt");
-        chooseWindow.showOpenDialog(null);
-        //File is used to retrieve the selected file
-        File file = chooseWindow.getSelectedFile();
-        String filepath = file.getAbsolutePath();
+        openFile(userType);
+       
         
-        // bufferedReader reads the lines and then is inserted into the table
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String firstLine = br.readLine().trim();
-            String[] columnsName = firstLine.split(",");
-            DefaultTableModel model = (DefaultTableModel) roomInfo.getModel();
-            model.setColumnIdentifiers(columnsName);
-            
-            Object[] tableLines = br.lines().toArray();
-            
-            for(int i = 0; i < tableLines.length; i++){
-                String line = tableLines[i].toString().trim();
-                String[] dataRow = line.split(",");
-                model.addRow(dataRow);
-            }
-        }
-        catch (IOException ex) {
-            Logger.getLogger(HotelInfo.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_openMenuItemActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        // TODO add your handling code here:
-        ArrayList<String> table_data = new ArrayList<>();
-        //ArrayList<Integer> price = new ArrayList<>();
-//        String[] data;
-//        for(int i=0;i<roomInfo.getRowCount();i++){
-//          //  price.add((Integer) roomInfo.getValueAt(i, 2));
-//            for(int j=0;j<roomInfo.getColumnCount();j++){
-//                table_data.add((String) roomInfo.getValueAt(i, j));
-//
-//            }
-//            for(int a=0;a<roomInfo.getRowCount();a++){
-//
-//            }
-//        }
-
+//                                                  
+//        // TODO add your handling code here:           
+     boolean validate= true;
+        int target=0;
+        try{
+            target = Integer.parseInt(priceField.getText()); //Gets the price input by the user
+        }catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(rootPane, "Please enter a numeric value.", userType, HEIGHT);
+            validate = false;
+        }
+        int min=0;
+         //Checks if the user has clicked the search button multiple times
+        if (search_repeat==false){
+            for(int i=0;i<roomInfo.getRowCount();i++){  
+                String get_price = (String) roomInfo.getValueAt(i, 2);  //Stores only the price of the room into an arraylist
+                price.add(Integer.parseInt(get_price));  
+                for(int j=0;j<roomInfo.getColumnCount();j++){
+                    table_data.add((String) roomInfo.getValueAt(i, j)); //Stores the details of the room into an arraylist
+                }    
+            }
+           
+            //sort table_data arraylist according to price using selection sort
+            for(int i=2;i<table_data.size()-1;i=i+5){
+                    min = i;
+                        for(int b=i+5;b<table_data.size();b=b+5){
+                            if (Integer.parseInt(table_data.get(min)) > Integer.parseInt(table_data.get(b))){
+                                Collections.swap(table_data, min-2, b-2);
+                                Collections.swap(table_data, min-1, b-1);
+                                Collections.swap(table_data, min, b);
+                                Collections.swap(table_data, min+1, b+1);
+                                Collections.swap(table_data, min+2, b+2);
+                                min=min+5;
+                            }
+                        }  
+            }
+            //sort price arraylist using selection sort
+            for(int i=0;i<price.size()-1;i++){
+                min = i;
+                for(int j=i+1;j<price.size();j++){
+                    if (price.get(j)<price.get(min)){
+                        min=j;
+                        Collections.swap(price, i, min);
+                    }
+                }  
+            }
+        }
+        if (validate == true && price.contains(target)){
+                //Performs binary search on the price arraylist for the price input by the user
+                int output = binarySearch(price, 0, price.size(), target);  //returns the index of the selected price
+                int index=((output+1)*5)-3; //returns the index of the price in the table_data arraylist
+                model.setRowCount(0);   //Empties the table
+                
+                //Add the data of the room with the searched price
+                model.insertRow(0, new Object[] {table_data.get(index-2),table_data.get(index-1),table_data.get(index),table_data.get(index+1),table_data.get(index+2)});
+                JOptionPane.showMessageDialog(rootPane, "A room is available for the price.The details of the room is displayed in the table below.", userType, HEIGHT);
+        }else if(validate == true && price.contains(target)==false){
+            JOptionPane.showMessageDialog(rootPane, "There are no rooms available for the price", userType, HEIGHT);
+        }       
+                search_repeat = true;
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         // TODO add your handling code here:
          // TODO add your handling code here:
+         String roomPrice = null,roomNum = null ;
         int rowCount = roomInfo.getRowCount();
-
-        String roomNum = roomNumField.getText();
+        
+        try{
+         int roomNumInt = Integer.parseInt(roomNumField.getText());
+         int roomPriceInt = Integer.parseInt(roomPriceField.getText());
+         
+         roomNum = String.valueOf(roomNumInt);
+         roomPrice = String.valueOf(roomPriceInt);
+        }
+        catch(NumberFormatException ex){
+            JOptionPane.showMessageDialog(rootPane, "Please enter a number for room number and price", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        
         String roomType = (String) typeCombo1.getSelectedItem();
-        String roomPrice = roomPriceField.getText();
         String ac = null ;
         if(yesRadio.isSelected()){
             ac = "YES";
@@ -490,6 +584,10 @@ public class HotelInfo extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "There seems to be a empty field");
                 return;
             }
+        }
+        // to make the user unable to select the first value of combo ie "Please Select Floor and Room Type"
+        if(typeCombo1.getSelectedIndex() == 0 || floorCombo.getSelectedIndex() == 0){
+             JOptionPane.showMessageDialog(rootPane, "Please Select A Floor and a Room Type");
         }
 
         //duplicate data validation
@@ -510,10 +608,55 @@ public class HotelInfo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
-    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         // TODO add your handling code here:
+        String fileName = JOptionPane.showInputDialog("Enter The name of file you want to save:");
         
-    }//GEN-LAST:event_updateButtonActionPerformed
+        if(fileName ==""){
+        JOptionPane.showMessageDialog(rootPane, "Please enter a name", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+        else if(fileName == null){
+            return;
+        }
+        try{
+            File file = new File("Resource/"+fileName+".csv");
+            PrintWriter pw = new PrintWriter(file);
+            StringBuilder sb = new StringBuilder();
+            int rowCount = roomInfo.getRowCount();
+            
+            sb.append("Room Number");
+            sb.append(",");
+            sb.append("Room Type");
+            sb.append(",");
+            sb.append("Price");
+            sb.append(",");
+            sb.append("Air Conditioner");
+            sb.append(",");
+            sb.append("Floor");
+            sb.append("\n");
+            
+            for(int i = 0; i< rowCount; i++){
+                for (int j = 0; j < 5; j++){
+                    sb.append(roomInfo.getValueAt(i,j).toString());
+                    if(j == 4){
+                        sb.append("\n");
+                    }
+                    else{
+                       sb.append(","); 
+                    }
+                    
+                }
+            }
+            pw.write(sb.toString());
+            pw.close();
+            JOptionPane.showMessageDialog(rootPane, "Saved Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    
+            
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(rootPane, "Something Went Wrong:"+e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_saveButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         // TODO add your handling code here:
@@ -536,6 +679,24 @@ public class HotelInfo extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(rootPane, "Row Deleted "+ roomNum);
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+        // TODO add your handling code here:
+        int output = 0;
+        if(userType=="admin"){
+            output = JOptionPane.showConfirmDialog(rootPane, "Unsaved changes will be lost, are you sure?");
+        }
+        if(output == 0){
+        openFile("user");
+        }
+        else{
+            return;
+        }
+    }//GEN-LAST:event_resetButtonActionPerformed
+
+    private void priceFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_priceFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_priceFieldActionPerformed
 
      public void newRow() {
         DefaultTableModel tableModel = (DefaultTableModel) roomInfo.getModel();
@@ -604,6 +765,66 @@ public class HotelInfo extends javax.swing.JFrame {
             }
         });
     }
+    
+     public int binarySearch(ArrayList<Integer> price_list, int low, int high, int target_value){
+       
+        int mid = (low+high)/2;
+        if(low>high){
+            return -1;
+        }
+        if(price_list.get(mid).equals(target_value)){
+            System.out.println(price_list.get(mid));
+            //model.setRowCount(0);
+            //JOptionPane.showMessageDialog(rootPane, "The available room is " + price_list.get(mid));
+            
+            return mid;
+            
+        }else if(target_value<price_list.get(mid)){
+            return binarySearch(price_list, low, mid-1, target_value);
+        }else{
+            return binarySearch(price_list, mid+1, high, target_value);
+        }
+        
+     }
+    
+    public void openFile(String userType){
+        File file = null;
+        if(userType == "admin"){
+         //JFileChooser opens the window for choosing files
+        JFileChooser chooseWindow = new JFileChooser();
+        //FileFilter filters out the file types as specified as arguments
+        FileFilter filter = new FileNameExtensionFilter("files","csv","txt");
+        chooseWindow.showOpenDialog(null);
+        //File is used to retrieve the selected file
+        file = chooseWindow.getSelectedFile();
+        String filePath = file.getAbsolutePath();
+        }
+        else{
+           file = new File("Resource/tabledata.csv");
+        }
+        // bufferedReader reads the lines and then is inserted into the table
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String firstLine = br.readLine().trim();
+            String[] columnsName = firstLine.split(",");
+            DefaultTableModel model = (DefaultTableModel) roomInfo.getModel();
+            model.setColumnIdentifiers(columnsName);
+            
+            Object[] tableLines = br.lines().toArray();
+            
+            for(int i = 0; i < tableLines.length; i++){
+                String line = tableLines[i].toString().trim();
+                String[] dataRow = line.split(",");
+                model.addRow(dataRow);
+            }
+        }
+        catch (IOException ex) {
+            Logger.getLogger(HotelInfo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch(Exception ex){
+            
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup acGroup;
@@ -620,19 +841,21 @@ public class HotelInfo extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JPanel modificationPanel;
     private javax.swing.JRadioButton noRadio;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JTextField priceField;
+    private javax.swing.JButton resetButton;
     private javax.swing.JTable roomInfo;
     private javax.swing.JTextField roomNumField;
     private javax.swing.JTextField roomPriceField;
+    private javax.swing.JButton saveButton;
     private javax.swing.JButton searchButton;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JComboBox<String> typeCombo;
     private javax.swing.JComboBox<String> typeCombo1;
-    private javax.swing.JButton updateButton;
     private javax.swing.JRadioButton yesRadio;
     // End of variables declaration//GEN-END:variables
 }

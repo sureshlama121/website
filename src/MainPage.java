@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package Hotel;
 
+
+import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
 import static java.lang.String.valueOf;
 import javax.swing.JOptionPane;
 /**
@@ -44,6 +46,8 @@ public class MainPage extends javax.swing.JFrame {
         passwordField = new javax.swing.JPasswordField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -51,7 +55,7 @@ public class MainPage extends javax.swing.JFrame {
 
         jLayeredPane1.setLayout(new java.awt.CardLayout());
 
-        mainPanel.setBackground(new java.awt.Color(102, 102, 102));
+        mainPanel.setBackground(new java.awt.Color(255, 255, 204));
 
         firstLabel.setFont(new java.awt.Font("Arial", 0, 36)); // NOI18N
         firstLabel.setForeground(new java.awt.Color(255, 153, 102));
@@ -68,7 +72,7 @@ public class MainPage extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/namaste.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/namaste.png"))); // NOI18N
 
         adminButton.setBackground(new java.awt.Color(102, 102, 255));
         adminButton.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -97,7 +101,7 @@ public class MainPage extends javax.swing.JFrame {
                         .addComponent(bookButton, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGap(241, 241, 241)
-                        .addComponent(jLabel2)))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
         mainPanelLayout.setVerticalGroup(
@@ -180,9 +184,16 @@ public class MainPage extends javax.swing.JFrame {
         jLayeredPane1.add(loginPanel, "card3");
 
         jMenu1.setText("File");
+
+        jMenu3.setText("Exit");
+        jMenu1.add(jMenu3);
+
+        jMenuItem1.setText("jMenuItem1");
+        jMenu1.add(jMenuItem1);
+
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Help");
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -209,6 +220,8 @@ public class MainPage extends javax.swing.JFrame {
       
         HotelInfo tableFrame = new HotelInfo("user");
         tableFrame.setVisible(true);
+      
+
     }//GEN-LAST:event_bookButtonActionPerformed
 
     private void adminButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminButtonActionPerformed
@@ -229,14 +242,17 @@ public class MainPage extends javax.swing.JFrame {
         // if the username and password are correct in the fields the button directs to the table page
         String passwordValue = valueOf(passwordField.getPassword());
         if(usernameField.getText().equals("admin") && passwordValue.equals("admin") ){
-         JOptionPane.showMessageDialog(rootPane, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+         
         }
         else{
              JOptionPane.showMessageDialog(rootPane, "Please enter username and password correctly", "Error", JOptionPane.ERROR_MESSAGE);
         
             }
+        
         HotelInfo tableFrame = new HotelInfo("admin");
         tableFrame.setVisible(true);
+        
+          JOptionPane.showMessageDialog(tableFrame, "Open the csv file from open menu to populate the table with data");
     }//GEN-LAST:event_loginButtonActionPerformed
 
     /**
@@ -283,7 +299,9 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JButton loginButton;
     private javax.swing.JPanel loginPanel;
     private javax.swing.JPanel mainPanel;
