@@ -228,8 +228,7 @@ public class MainPage extends javax.swing.JFrame {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // if the username and password are correct in the fields the button directs to the table page
         String passwordValue = valueOf(passwordField.getPassword());
-        JOptionPane.showMessageDialog(rootPane, "user:"+usernameField.getText()+"password:"+ passwordValue, "Success", JOptionPane.INFORMATION_MESSAGE);
-        if(usernameField.getText() =="admin" && passwordValue  == "admin" ){
+        if(usernameField.getText().equals("admin") && passwordValue.equals("admin") ){
          JOptionPane.showMessageDialog(rootPane, "Login Successful", "Success", JOptionPane.INFORMATION_MESSAGE);
         }
         else{

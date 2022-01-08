@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
@@ -51,22 +52,28 @@ public class HotelInfo extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
+        acGroup = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         modificationPanel = new javax.swing.JPanel();
-        typeCombo2 = new javax.swing.JComboBox<>();
+        floorCombo = new javax.swing.JComboBox<>();
         typeCombo1 = new javax.swing.JComboBox<>();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        roomPriceField = new javax.swing.JTextField();
+        roomNumField = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
+        deleteButton = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        yesRadio = new javax.swing.JRadioButton();
+        noRadio = new javax.swing.JRadioButton();
         searchButton = new javax.swing.JButton();
         titleLabel = new javax.swing.JLabel();
         priceField = new javax.swing.JTextField();
         typeCombo = new javax.swing.JComboBox<>();
-        hotelIcon = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         roomInfo = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -92,14 +99,14 @@ public class HotelInfo extends javax.swing.JFrame {
 
         modificationPanel.setBackground(new java.awt.Color(153, 153, 153));
 
-        typeCombo2.setBackground(new java.awt.Color(153, 153, 153));
-        typeCombo2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        typeCombo2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " Select Floor", "1st", "2nd", "3rd", "4th", "5th" }));
-        typeCombo2.setBorder(null);
-        typeCombo2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        typeCombo2.addActionListener(new java.awt.event.ActionListener() {
+        floorCombo.setBackground(new java.awt.Color(153, 153, 153));
+        floorCombo.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        floorCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " Select Floor", "1st", "2nd", "3rd", "4th", "5th" }));
+        floorCombo.setBorder(null);
+        floorCombo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        floorCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                typeCombo2ActionPerformed(evt);
+                floorComboActionPerformed(evt);
             }
         });
 
@@ -114,59 +121,145 @@ public class HotelInfo extends javax.swing.JFrame {
             }
         });
 
-        jRadioButton1.setText("YES");
+        roomPriceField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Room Price", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 12))); // NOI18N
 
-        jRadioButton2.setText("NO");
+        roomNumField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Room No", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 12))); // NOI18N
+
+        jPanel3.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Modify Table"));
+
+        deleteButton.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        deleteButton.setText("Delete");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
+
+        updateButton.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        updateButton.setText("Update");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
+
+        addButton.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(56, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(45, 45, 45))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(7, 7, 7)
+                .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jPanel4.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel1.setText("Air Conditioner:");
 
-        jTextField3.setText("jTextField1");
-        jTextField3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Room Price", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 12))); // NOI18N
+        yesRadio.setBackground(new java.awt.Color(153, 153, 153));
+        acGroup.add(yesRadio);
+        yesRadio.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        yesRadio.setText("YES");
+        yesRadio.setAutoscrolls(true);
 
-        jTextField4.setText("jTextField1");
-        jTextField4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Room No", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 12))); // NOI18N
+        noRadio.setBackground(new java.awt.Color(153, 153, 153));
+        acGroup.add(noRadio);
+        noRadio.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        noRadio.setText("NO");
+        noRadio.setAutoscrolls(true);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(yesRadio, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(noRadio, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(yesRadio)
+                    .addComponent(noRadio))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout modificationPanelLayout = new javax.swing.GroupLayout(modificationPanel);
         modificationPanel.setLayout(modificationPanelLayout);
         modificationPanelLayout.setHorizontalGroup(
             modificationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(modificationPanelLayout.createSequentialGroup()
-                .addGap(178, 178, 178)
-                .addComponent(typeCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(130, 130, 130)
-                .addComponent(typeCombo2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(200, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, modificationPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addGap(26, 26, 26)
+                .addGroup(modificationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(roomNumField, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(typeCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(49, 49, 49)
                 .addGroup(modificationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(modificationPanelLayout.createSequentialGroup()
-                        .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45)
-                        .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(141, 141, 141))
+                    .addComponent(roomPriceField, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(floorCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(49, 49, 49)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
         );
         modificationPanelLayout.setVerticalGroup(
             modificationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(modificationPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(modificationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(modificationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(typeCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(typeCombo2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGap(47, 47, 47)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(modificationPanelLayout.createSequentialGroup()
+                .addGap(64, 64, 64)
+                .addGroup(modificationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(modificationPanelLayout.createSequentialGroup()
+                        .addGroup(modificationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(modificationPanelLayout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(roomNumField, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(roomPriceField))
+                        .addGap(18, 18, 18)
+                        .addGroup(modificationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(typeCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(floorCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         searchButton.setBackground(new java.awt.Color(255, 204, 102));
@@ -200,9 +293,6 @@ public class HotelInfo extends javax.swing.JFrame {
             }
         });
 
-        hotelIcon.setBackground(new java.awt.Color(204, 204, 204));
-        hotelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/hotel.png"))); // NOI18N
-
         roomInfo.setBackground(new java.awt.Color(204, 204, 204));
         roomInfo.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         roomInfo.setForeground(new java.awt.Color(51, 51, 51));
@@ -221,48 +311,49 @@ public class HotelInfo extends javax.swing.JFrame {
             roomInfo.getColumnModel().getColumn(0).setPreferredWidth(20);
         }
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/hotel.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(hotelIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 237, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(modificationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 998, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(129, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
                         .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(72, 72, 72)
-                        .addComponent(typeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 998, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(11, 11, 11)
-                                .addComponent(modificationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap(28, Short.MAX_VALUE))
+                        .addComponent(typeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28))))
+            .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(titleLabel)
-                .addGap(27, 27, 27)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(16, 16, 16)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(typeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(hotelIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(46, 46, 46)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(11, 11, 11)
                 .addComponent(modificationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         fileMenu.setText("File");
@@ -302,7 +393,7 @@ public class HotelInfo extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 16, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -320,9 +411,9 @@ public class HotelInfo extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_typeComboActionPerformed
 
-    private void typeCombo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeCombo2ActionPerformed
+    private void floorComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_floorComboActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_typeCombo2ActionPerformed
+    }//GEN-LAST:event_floorComboActionPerformed
 
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
         // TODO add your handling code here:
@@ -359,20 +450,126 @@ public class HotelInfo extends javax.swing.JFrame {
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
         ArrayList<String> table_data = new ArrayList<>();
-        ArrayList<Integer> price = new ArrayList<>();
-        String[] data;
-        for(int i=0;i<roomInfo.getRowCount();i++){
-            price.add((Integer) roomInfo.getValueAt(i, 2));
-            for(int j=0;i<roomInfo.getColumnCount();i++){
-                table_data.add((String) roomInfo.getValueAt(i, j));
+        //ArrayList<Integer> price = new ArrayList<>();
+//        String[] data;
+//        for(int i=0;i<roomInfo.getRowCount();i++){
+//          //  price.add((Integer) roomInfo.getValueAt(i, 2));
+//            for(int j=0;j<roomInfo.getColumnCount();j++){
+//                table_data.add((String) roomInfo.getValueAt(i, j));
+//
+//            }
+//            for(int a=0;a<roomInfo.getRowCount();a++){
+//
+//            }
+//        }
 
-            }
-            for(int a=0;a<roomInfo.getRowCount();a++){
-
-            }
-        }
     }//GEN-LAST:event_searchButtonActionPerformed
 
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        // TODO add your handling code here:
+         // TODO add your handling code here:
+        int rowCount = roomInfo.getRowCount();
+
+        String roomNum = roomNumField.getText();
+        String roomType = (String) typeCombo1.getSelectedItem();
+        String roomPrice = roomPriceField.getText();
+        String ac = null ;
+        if(yesRadio.isSelected()){
+            ac = "YES";
+        }
+        else {
+            ac = "NO";
+        }
+       
+        String floor = (String) floorCombo.getSelectedItem();
+        String[] rowValues = {roomNum, roomType, roomPrice, ac, floor};
+
+        //To check if the user has left out a field
+        for (String data : rowValues) {
+            if (data.equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "There seems to be a empty field");
+                return;
+            }
+        }
+
+        //duplicate data validation
+        for (int i = 0; i < rowCount; i++) {
+            String checkRoomNum = (String) roomInfo.getValueAt(i, 0);
+
+            if (checkRoomNum.equals(roomNum)) {
+                JOptionPane.showMessageDialog(rootPane, "Duplicate Room Number");
+                return;
+            }
+           
+        }
+
+        //adding data to table
+        newRow();
+        for (int i = 0; i < roomInfo.getColumnCount(); i++) {
+            roomInfo.setValueAt(rowValues[i], rowCount, i);
+        }
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_updateButtonActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        // TODO add your handling code here:
+        int rowCount = roomInfo.getRowCount();
+        int i = -1;
+        String roomNum = roomNumField.getText();
+        for ( int j = 0; j < rowCount; j++){
+            String checkRoomNum =(String)roomInfo.getValueAt(j,0);
+            if( checkRoomNum.equals(roomNum)){
+                i = j;
+                break;
+            }
+        }
+        if(i == -1){
+            JOptionPane.showMessageDialog(rootPane, "There is no room number "+ roomNum);
+        }
+        else{
+         DefaultTableModel tableModel = (DefaultTableModel) roomInfo.getModel();
+        tableModel.removeRow(i);
+        JOptionPane.showMessageDialog(rootPane, "Row Deleted "+ roomNum);
+        }
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
+     public void newRow() {
+        DefaultTableModel tableModel = (DefaultTableModel) roomInfo.getModel();
+        tableModel.addRow(new Object[]{null});
+    }
+    
+    private static void merge(int [] first, int [] second, int[] a){
+        int iFirst = 0;
+        int iSecond = 0;
+        int j = 0;
+        
+        while(iFirst < first.length && iSecond < second.length)
+        {
+            if (first[iFirst] < second[iSecond])
+            {
+                a[j] = first[iFirst];
+                iFirst++;
+            }
+            else{
+                a[j] = second[iSecond];
+                iSecond++;
+            }
+            j++;
+        }
+        while (iFirst <first.length){
+            a[j] = first[iFirst];
+            iFirst++; j++;
+        }
+        while(iSecond < second.length)
+        {
+            a[j] = second[iSecond];
+            iSecond++; j++;
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -409,27 +606,33 @@ public class HotelInfo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup acGroup;
+    private javax.swing.JButton addButton;
+    private javax.swing.JButton deleteButton;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JComboBox<String> floorCombo;
     private javax.swing.JMenu helpMenu;
-    private javax.swing.JLabel hotelIcon;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JPanel modificationPanel;
+    private javax.swing.JRadioButton noRadio;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JTextField priceField;
     private javax.swing.JTable roomInfo;
+    private javax.swing.JTextField roomNumField;
+    private javax.swing.JTextField roomPriceField;
     private javax.swing.JButton searchButton;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JComboBox<String> typeCombo;
     private javax.swing.JComboBox<String> typeCombo1;
-    private javax.swing.JComboBox<String> typeCombo2;
+    private javax.swing.JButton updateButton;
+    private javax.swing.JRadioButton yesRadio;
     // End of variables declaration//GEN-END:variables
 }
