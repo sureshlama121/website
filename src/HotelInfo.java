@@ -40,6 +40,7 @@ public class HotelInfo extends javax.swing.JFrame {
     DefaultTableModel model;
     boolean combobox_repeat = false;
     boolean search_repeat = false;
+    boolean validate;
     
     public HotelInfo() {
         initComponents();
@@ -460,8 +461,10 @@ public class HotelInfo extends javax.swing.JFrame {
 
     private void typeComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeComboActionPerformed
         // TODO add your handling code here: 
+        DefaultTableModel model = (DefaultTableModel) roomInfo.getModel();
         ArrayList<String> category_result = new ArrayList<>();
         String selected_category =(String) typeCombo.getSelectedItem(); //gets the category selected by the user
+      
         String check_category;
         //Checks if the user has clicked the combobox multiple times
         if(combobox_repeat == false){   //Only runs the code on the first click
@@ -474,7 +477,8 @@ public class HotelInfo extends javax.swing.JFrame {
         }
         //search the table_data ArrayList for details of rooms according to category selected by user
         for(int i=1;i<table_data.size();i=i+5){
-                         check_category = table_data.get(i);      //checks the category of the room                 
+                         check_category = table_data.get(i);      //checks the category of the room  
+                    
                             if (check_category.equals(selected_category)){  // adds the details of the hotel room into an ArrayList if categories match
                             category_result.add(table_data.get(i-1));
                             category_result.add(table_data.get(i));
@@ -484,8 +488,9 @@ public class HotelInfo extends javax.swing.JFrame {
                             }
             }
                         //Empties the table
+                        JOptionPane.showMessageDialog(rootPane,"row count before:"+model.getRowCount() );
                         model.setRowCount(0);
-                        
+                        JOptionPane.showMessageDialog(rootPane,"row count after:"+model.getRowCount() );
                         //Adds the required room details into the table
                         for(int a=0;a<category_result.size();a=a+5){   
                             model.insertRow(0, new Object[] {category_result.get(a),category_result.get(a+1),category_result.get(a+2),category_result.get(a+3),category_result.get(a+4)});
@@ -506,8 +511,9 @@ public class HotelInfo extends javax.swing.JFrame {
     }//GEN-LAST:event_openMenuItemActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-//                                                  
-//        // TODO add your handling code here:           
+//                                                 
+//        // TODO add your handling code here:   
+DefaultTableModel model = (DefaultTableModel) roomInfo.getModel();
      boolean validate= true;
         int target=0;
         try{
@@ -800,8 +806,6 @@ public class HotelInfo extends javax.swing.JFrame {
         }
         if(price_list.get(mid).equals(target_value)){
             System.out.println(price_list.get(mid));
-            //model.setRowCount(0);
-            //JOptionPane.showMessageDialog(rootPane, "The available room is " + price_list.get(mid));
             
             return mid;
             
